@@ -29,9 +29,10 @@ namespace sac {
 
 	/*********************************************
 	/* Initial condition */
+	//double th1 = PI/8;
+	//const double x_init[] = {th1, PI/8, PI/6, sin(th1), cos(th1), 1.6, 1.6, 0, 0, 0};
 	double th1 = 0;
 	const double x_init[] = {th1, 0, 0, sin(th1), cos(th1), 0, 0, 0, 0, 0};
-
 
 	/*********************************************
 	/* Indexes of states to be angle wrapped - leave brace blank if no states are to be wrapped */
@@ -40,10 +41,10 @@ namespace sac {
 	/*********************************************/
 	/* Time Parameters */
 	const double t_init = 0.0; // initial time
-	const double t_final = 23; // final time
+	const double t_final = 20; // final time
 
-	const double T = 0.7; // prediction horizon
-	const double ts = 1.0/80.0; //sampling time
+	double T = 1.0; // prediction horizon
+	const double ts = 1.0/60.0; //sampling time
 	const double impact_duration = 1E-4;// used to store state before and after impact
 
 
@@ -98,11 +99,11 @@ namespace sac {
 
 	inline void initialize_cost_weights() {
 		//Q matrix
-		Q(0,0) = 0;
-		Q(1,1) = 0;
-		Q(2,2) = 300;
-		Q(3,3) = 120;  
-		Q(4,4) = 300;	
+		Q(0,0) = 10;
+		Q(1,1) = 350;
+		Q(2,2) = 350;
+		Q(5,5) = 0;  
+		Q(6,6) = 0;	
 		Q(7,7) = 0;			
 
 
@@ -132,7 +133,7 @@ namespace sac {
 		else
 			m_mxdes << 0, 0, 0, 0.2*t, 1, 0, 0, 0, 0, 0;*/
 		
-		m_mxdes << 0, 0, 0, 0.2*t, 1, 0, 0, 0, 0, 0;
+		m_mxdes << PI/8, PI/8, PI/6, 0, 0, 1.6, 1.6, 0, 0, 0;
 	}
 	
 	/*********************************************/
@@ -169,7 +170,7 @@ namespace sac {
 			system("PAUSE");
 		}*/
 	
-        return ((xtoe2>xtoe1+0.1)&&(ztoe2_prev>0)&&(ztoe2<0));
+        return ((xtoe2>xtoe1+0.01)&&(ztoe2_prev>=0)&&(ztoe2<=0));
     }
 
 
